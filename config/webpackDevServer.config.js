@@ -100,7 +100,18 @@ module.exports = function (proxy, allowedHost) {
       index: paths.publicUrlOrPath,
     },
     // `proxy` is run between `before` and `after` `webpack-dev-server` hooks
-    proxy,
+    // proxy,
+    proxy: {
+      "/traderUrl": {
+        // target: "http://172.18.1.162:1788",
+        //home
+        target:"http://192.168.31.77:1788",
+        changeOrigin: true,
+        pathRewrite: {
+          "^/traderUrl": ""
+        }
+      }
+    },
     onBeforeSetupMiddleware(devServer) {
       // Keep `evalSourceMapMiddleware`
       // middlewares before `redirectServedPath` otherwise will not have any effect
