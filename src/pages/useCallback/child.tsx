@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-// import './Component1.css';
+
 interface childType{
   callback:()=> void
 }
+
 function Child({ callback }:childType) {
 
   const [count, setCount] = useState(() => callback());

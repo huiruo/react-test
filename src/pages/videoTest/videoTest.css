@@ -2,13 +2,21 @@
   position: relative;
 }
 
-.video-content{
+.video-board-container{
   position: absolute;
   display: flex;
+  justify-content: center;
   align-items: center;
   bottom: 10px;
-  height: 50px;
+  /* height: 50px; */
+  height: auto;
   width: 100%;
+  /* background: green; */
+}
+
+.video-board-content{
+  width: calc(100% - 80px);
+  /* background: black; */
 }
 
 .barbg {
@@ -42,15 +50,24 @@
 
 .handle-content{
   display: flex;
-  margin-left: 20px;
+  /* margin-left: 20px; */
   margin-bottom: 8px;
 }
+
 .handle-img{
   cursor: pointer;
   height: 20px;
   width: 20px;
 }
+
 .time-flag {
   margin-left: 10px;
   color: white;
+}
+
+.vjs-big-play-button{
+  display: none !important;
+}
+.vjs-control-bar{
+  display: none !important;
 }
