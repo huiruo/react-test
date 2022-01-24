@@ -1,10 +1,10 @@
 import { useEffect, useState,useRef } from 'react';
 // import axios from 'axios'
 // import { traderApiUrl } from '../../services/config'
-import videojs from 'video.js';
 import pauseVideo from '../../assets/pause_video.png'
 import playVideo from '../../assets/play_video.png'
 import enlargeVideo from '../../assets/enlarge_video.png'
+import videojs from 'video.js';
 import 'video.js/dist/video-js.css';
 import './videoTest.css';
 
@@ -22,14 +22,15 @@ function App() {
   const [isAutoply,setIsAutoply] = useState(true)
   const [isLoop,setIsLoop] = useState(true)
 
-  const [videoDuration,setVideoDuration] = useState(0)
   const [barWidth,setBarWidth] = useState("")
+
+  const [videoDuration,setVideoDuration] = useState(0)
   const [videoCurrent,setVideoCurrent] = useState(0)
   const [playStatus,setPlayStatus] = useState(isAutoply)
-
   const [myVideoObj,setMyVideoObj] = useState<any>()
   // 操作板，默认关闭
   const [hideBoard, setHideBoard] = useState<boolean>(false)
+  const [isEnlarge, setIsEnlarge] = useState<boolean>(false)
 
   const videoRef = useRef(null)
 
@@ -58,8 +59,45 @@ function App() {
   }
 
   const onEnlarge = ()=>{
+    console.log('全屏')
+
     myVideoObj.play()
     myVideoObj.requestFullscreen()
+    /*
+    if(!isEnlarge){
+      setIsEnlarge(true)
+      const el = document.documentElement;
+
+      // @ts-ignore
+      const rfs = el.requestFullScreen || el.webkitRequestFullScreen || el.mozRequestFullScreen || el.msRequestFullscreen;      
+          if(typeof rfs != "undefined" && rfs) {
+              rfs.call(el);
+      };
+      return;
+    }else{
+      setIsEnlarge(false)
+      if (document.exitFullscreen) {  
+        document.exitFullscreen();  
+        // @ts-ignore
+      }else if (document.mozCancelFullScreen) {  
+              // @ts-ignore
+          document.mozCancelFullScreen();  
+                // @ts-ignore
+      }else if (document.webkitCancelFullScreen) {  
+              // @ts-ignore
+          document.webkitCancelFullScreen();  
+                // @ts-ignore
+      }else if (document.msExitFullscreen) {  
+              // @ts-ignore
+          document.msExitFullscreen();  
+      } 
+      // @ts-ignore
+      if(typeof cfs !== "undefined" && cfs) {
+        // @ts-ignore
+          cfs.call(el);
+      }
+    }
+    */
   }
 
   const displayTimeFomat = (val:any)=>{
@@ -93,14 +131,18 @@ function App() {
     setVideoCurrent(computedTime)
   }
 
+  // 隐藏div 的划入事件
+  const onMouseEnterBoardHide = () => {
+    console.log('2.隐藏div 的划入事件')
 
-  useEffect(()=>{
+    setHideBoard(true)
+  }
 
-    const url = 'http://172.16.53.113:1788/02_招商港口.mp4'
-    initVideo(url)
-
-    return function cleanUp() { }
-  },[])
+  // 隐藏div 的划出事件
+  const onMouseLeaveBoardHide = () => {
+    console.log('3.隐藏div 的划出事件')
+    setHideBoard(false)
+  }
 
  const initVideo=(videoUrl:string)=>{
     const myVideo =videojs('videoId',{
@@ -147,21 +189,19 @@ function App() {
     });
   }
 
-  // 隐藏div 的划入事件
-  const onMouseEnterBoardHide = () => {
-    console.log('2.隐藏div 的划入事件')
 
-    setHideBoard(true)
-  }
+  useEffect(()=>{
 
-  // 隐藏div 的划出事件
-  const onMouseLeaveBoardHide = () => {
-    console.log('3.隐藏div 的划出事件')
-    setHideBoard(false)
-  }
+    const url = 'http://172.16.53.113:1788/02_招商港口.mp4'
+    initVideo(url)
+
+    return function cleanUp() { }
+  },[])
 
   return (
-    <div className="video-container" style={{width:'100%'}}>
+    // <div className="video-container" style={{width:'100vw',height:'100vh'}}>
+    <div className="video-container">
+      {/* <div style={{width:'100%',height:'100%'}}> */}
       <div>
         <video 
         id='videoId'
@@ -199,7 +239,7 @@ function App() {
                   </div>
                 </div>
             </div>:
-          <div className='float-layer-hide'></div>}
+          <div className='video-float-layer-hide'></div>}
         </div>:null }
       </div>
     </div>

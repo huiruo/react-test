@@ -54,8 +54,16 @@
 
 "video.js": "^7.4.1",
 "video.js": "^7.17.0",
-npm i --save-dev @types/video.js
+npm i --save @types/video.js
+npm i --save video.js
 
+yarn add @types/video.js
+yarn add video.js
+
+<!-- import videocomponent from './video-component' -->
+import VideoComponent from './video-component'
+      <VideoComponent>
+      </VideoComponent>
 ```
 
 ```
@@ -144,4 +152,142 @@ barDiv.addEventListener("click", onBarClick2,true);
     // console.log('1.暂停=====--->')
     // console.log('onBarClick:',e.target)
   }
+```
+
+
+```js
+import pauseVideo from '@/images/video-img/pause_video.png'
+import playVideo from '@/images/video-img/play_video.png'
+import enlargeVideo from '@/images/video-img/enlarge_video.png'
+import videojs from 'video.js';
+import 'video.js/dist/video-js.css';
+import 'video.js/dist/video-js.css';
+import './video-component.less'
+
+  const [videoDuration,setVideoDuration] = useState(0)
+  const [videoCurrent,setVideoCurrent] = useState(0)
+  const [myVideoObj,setMyVideoObj] = useState<any>()
+  const [playStatus,setPlayStatus] = useState(true)
+  const [hideBoard, setHideBoard] = useState<boolean>(false)
+
+  // video 方法 start
+  // video 方法 start
+  const calculateBarWidth =()=>{
+    let barWidth = '0px'
+    if(myVideoObj){
+      const currentTime:number= myVideoObj.currentTime()
+      const duration:number = myVideoObj.duration()
+      barWidth = (currentTime / duration) * 100 + "%"; 
+    }
+    return barWidth
+  }
+
+  const onPause = ()=>{
+    // console.log('onPause-->',progressFlag)
+    // const video:videoType = videoRef?.current as unknown as videoType
+    // video.pause()
+    // setPlayStatus(false)
+  }
+
+  const onPlay = ()=>{
+    // console.log('onPlay-->',progressFlag)
+    // const video:videoType = videoRef?.current as unknown as videoType
+    // setPlayStatus(true)
+    // video.play()
+  }
+
+  const onEnlarge = ()=>{
+    myVideoObj.play()
+    myVideoObj.requestFullscreen()
+  }
+
+  const displayTimeFomat = (val:any)=>{
+    let time = parseInt(val);
+    // let time = 61;
+    // let time = 60;
+    let minute:number = time / 60;
+
+    let minutes = minute.toFixed(0).toString();
+    if(minute<1){
+      minutes = "0";
+    }
+
+    let second = time % 60;
+    let seconds = Math.round(second).toString();
+    if (second < 10) {
+      seconds = "0" + seconds;
+    }
+
+    return minutes + ":" + seconds;
+  }
+
+
+  const onBarClick = (e:any)=>{
+    const barDiv = document.getElementById("barId");
+    const offsetWidth = barDiv?.offsetWidth as number
+    const clickPotision = e.nativeEvent.offsetX;
+    const computedTime = (clickPotision / offsetWidth) * videoDuration;
+
+    myVideoObj.currentTime(computedTime)
+    setVideoCurrent(computedTime)
+  }
+  // 隐藏div 的划入事件
+  const onMouseEnterBoardHide = () => {
+    console.log('2.隐藏div 的划入事件')
+
+    setHideBoard(true)
+  }
+
+  // 隐藏div 的划出事件
+  const onMouseLeaveBoardHide = () => {
+    console.log('3.隐藏div 的划出事件')
+    setHideBoard(false)
+  }
+
+ const initVideo=(videoUrl:string)=>{
+    const myVideo =videojs('videoId',{
+      // 是否显示控制条
+      controls: false,
+      preload: 'auto',
+      autoplay: true,
+      fluid: false, // 自适应宽高
+      language: 'zh-CN', // 设置语言
+      muted: true, // 是否静音
+      sources:[
+        {
+            src: videoUrl,
+            type: 'video/mp4',
+        }
+      ]
+    },function onPlayerReady() {
+
+      setMyVideoObj(this)
+
+      let that =this
+
+      this.on('loadeddata',function(){
+        const duration:number= that.duration()
+        setVideoDuration(duration)
+      })
+
+      this.on("timeupdate", function() {
+        const currentTime:number= that.currentTime()
+        setVideoCurrent(currentTime)
+      });
+
+      this.on("ended", function() {
+        // console.log("ended");
+      });
+
+      this.on("seeked", function() {
+        // console.log("已经拿到视频流");
+      });
+      this.on("seeking", function() {
+        //正在去拿视频流的路上
+        // console.log("seeking");
+      });
+    });
+  }
+  // video 方法 end
+  // video 方法 end
 ```
