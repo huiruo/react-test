@@ -105,7 +105,8 @@ module.exports = function (proxy, allowedHost) {
       "/traderUrl": {
         // target: "http://172.18.1.162:1788",
         //home
-        target:"http://192.168.31.77:1788",
+        // target:"http://192.168.31.77:1788",
+        target:"http://172.16.53.113:1788",
         changeOrigin: true,
         pathRewrite: {
           "^/traderUrl": ""

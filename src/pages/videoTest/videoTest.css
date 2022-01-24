@@ -19,6 +19,13 @@
   /* background: black; */
 }
 
+.float-layer-hide{
+  height: 40px;
+  width: 100%;
+  /* background: yellow; */
+  opacity: 0;
+}
+
 .barbg {
   position: relative;
   width: 100%;
@@ -48,10 +55,13 @@
   border-radius: 50%;
 }
 
+.handle-container{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2px;
+}
 .handle-content{
   display: flex;
-  /* margin-left: 20px; */
-  margin-bottom: 8px;
 }
 
 .handle-img{

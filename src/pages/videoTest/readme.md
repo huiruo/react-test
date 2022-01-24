@@ -1,4 +1,50 @@
 
+```js
+  useEffect(()=>{
+
+    setTimeout(()=>{
+      const video:videoType = videoRef?.current as unknown as videoType
+      console.log('视频时长0：',videoRef)
+      console.log('视频时长1：',videoRef?.current)
+      console.log('视频时长2：',video.duration)
+      setVideoDuration(video.duration)
+    },800) 
+
+    const url = 'http://172.16.53.113:1788/02_招商港口.mp4'
+    initVideo(url)
+
+    return function cleanUp() { }
+  },[])
+```
+
+```js
+      controlBar: { // 设置控制条组件
+        /* 设置控制条里面组件的相关属性及显示与否
+        'currentTimeDisplay':true,
+        'timeDivider':true,
+        'durationDisplay':true,
+        'remainingTimeDisplay':false,
+        volumePanel: {
+          inline: false,
+        }
+        */
+        /* 使用children的形式可以控制每一个控件的位置，以及显示与否 */
+        children: [
+          // {name: 'playToggle'}, // 播放按钮
+          // {name: 'currentTimeDisplay'}, // 当前已播放时间
+          // {name: 'progressControl'}, // 播放进度条
+          // {name: 'durationDisplay'}, // 总时间
+          // 倍数播放
+          // { name: 'playbackRateMenuButton', 'playbackRates': [0.5, 1, 1.5, 2, 2.5] },
+          // 音量控制  // 不使用水平方式 
+          // { name: 'volumePanel', inline: false,},
+          // 全屏
+          {name: 'FullscreenToggle'}
+        ]
+      },
+```
+
+
 ```
 .video-content{
   width: calc(100% - 80px);
